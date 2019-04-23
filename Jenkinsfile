@@ -1,5 +1,5 @@
 import java.text.SimpleDateFormat
-
+@Library('library')
 pipeline {
   options {
     buildDiscarder logRotator(numToKeepStr: '5')
