@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat
 
 pipeline {
-  @Library('library')
+
   options {
     buildDiscarder logRotator(numToKeepStr: '5')
     disableConcurrentBuilds()
