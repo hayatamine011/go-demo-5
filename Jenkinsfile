@@ -8,8 +8,8 @@ pipeline {
   }
   agent {
     kubernetes {
-      cloud "go-demo-5-build"
-      label "go-demo-5-build"
+      cloud "java-build"
+      label "java-build"
       serviceAccount "build"
       yamlFile "KubernetesPod.yaml"
     }      
@@ -27,29 +27,30 @@ pipeline {
           script {
             currentBuild.displayName = new SimpleDateFormat("yy.MM.dd").format(new Date()) + "-${env.BUILD_NUMBER}"
           }
-          k8sBuildGolang("go-demo")
+         // k8sBuildGolang("go-demo")
+          
         }
         container("docker") {
-          k8sBuildImageBeta(image, false)
+         // k8sBuildImageBeta(image, false)
         }
       }
     }
     stage("func-test") {
       steps {
         container("helm") {
-          k8sUpgradeBeta(project, domain, "--set replicaCount=2 --set dbReplicaCount=1")
+         // k8sUpgradeBeta(project, domain, "--set replicaCount=2 --set dbReplicaCount=1")
         }
         container("kubectl") {
-          k8sRolloutBeta(project)
+         // k8sRolloutBeta(project)
         }
         container("golang") {
-          k8sFuncTestGolang(project, domain)
+        //  k8sFuncTestGolang(project, domain)
         }
       }
       post {
         always {
           container("helm") {
-            k8sDeleteBeta(project)
+          //  k8sDeleteBeta(project)
           }
         }
       }
@@ -60,10 +61,10 @@ pipeline {
       }
       steps {
         container("docker") {
-          k8sPushImage(image, false)
+        //  k8sPushImage(image, false)
         }
         container("helm") {
-          k8sPushHelm(project, "", cmAddr, true, true)
+         // k8sPushHelm(project, "", cmAddr, true, true)
         }
       }
     }
